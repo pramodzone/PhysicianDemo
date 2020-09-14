@@ -4,6 +4,7 @@
 <head>
     <title>Dashboard</title>>
 	<script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.0/js/msal.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -18,6 +19,19 @@
     <script>
         
 		
+		$(document).ready(function(){
+        if ( sessionStorage.getItem("JSESSIONID") != null )
+        {       
+		
+		var divWelcome = document.getElementById('WelcomeMessage');
+       divWelcome.innerHTML = "Welcome " + sessionStorage.getItem("UserName")+ " to FHIR Patient Browsing App";
+        }
+        else{
+         
+			location.href = location.origin+'/PhysicianDemo/Index.html';
+        }
+});
+
 var msalConfig = {
             auth: {
                 clientId: '8fd52680-9d4d-4d80-be79-b2229e4e2ae3',
@@ -30,16 +44,12 @@ var msalConfig = {
         }
 
         var myMSALObj = new Msal.UserAgentApplication(msalConfig);
-		
-		var divWelcome = document.getElementById('WelcomeMessage');
-       divWelcome.innerHTML = "Welcome " + sessionStorage.getItem("UserName")+ " to FHIR Patient Browsing App";
           
 
         function signOut() {
             sessionStorage.removeItem("UserName");
 			sessionStorage.removeItem("ApiToken");
 			myMSALObj.logout();
-			location.href = location.origin+'/PhysicianDemo/Index.html';
         }
 
 
