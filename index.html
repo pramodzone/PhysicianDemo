@@ -84,6 +84,7 @@
         }
 
         function callFHIRServer(theUrl, method, message, accessToken, callBack) {
+		    sessionStorage.setItem("ApiToken", 'Bearer ' + accessToken);
             var xmlHttp = new XMLHttpRequest();
             xmlHttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200)
@@ -97,7 +98,7 @@
 
         function FHIRCallback(data) {
 		
-		window.location = location.origin+/'Test.html';
+		location.href = location.origin+'/PhysicianDemo/Test.html';
 		/*
             patientListHtml = '<ol>';
             data.entry.forEach(function(e) {
