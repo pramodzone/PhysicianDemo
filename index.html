@@ -63,13 +63,7 @@
 			alert('pramod1 - '+ sessionStorage.getItem("ApiToken"));			
 			location.href = location.origin+'/PhysicianDemo/Dashboard.html';
             }).catch(function (error) {
-                console.log(error);
-                if (requiresInteraction(error.errorCode)) {
-                    myMSALObj.acquireTokenPopup(requestObj).then(function (tokenResponse) {
-                    }).catch(function (error) {
-                        console.log(error);
-                    })
-                }
+                alert('Error - ' +error);
             });
         }
     </script>
