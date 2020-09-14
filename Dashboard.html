@@ -17,20 +17,6 @@
     </div>
 
     <script>
-        
-		
-		$(document).ready(function(){
-        if ( sessionStorage.getItem("ApiToken") != null )
-        {       
-		
-		var divWelcome = document.getElementById('WelcomeMessage');
-       divWelcome.innerHTML = "Welcome " + sessionStorage.getItem("UserName")+ " to FHIR Physician Browsing App";
-        }
-        else{
-         
-			location.href = location.origin+'/PhysicianDemo/';
-        }
-});
 
 var msalConfig = {
             auth: {
@@ -56,6 +42,23 @@ var msalConfig = {
         function signOut() {
             myMSALObj.logout();
         }
+		
+		
+        
+		
+		$(document).ready(function(){
+		alert('pramod - '+ sessionStorage.getItem("ApiToken"));
+        if ( sessionStorage.getItem("ApiToken") != null )
+        {       
+		
+		var divWelcome = document.getElementById('WelcomeMessage');
+       divWelcome.innerHTML = "Welcome " + sessionStorage.getItem("UserName")+ " to FHIR Physician Browsing App";
+        }
+        else{
+         
+			location.href = location.origin+'/PhysicianDemo/';
+        }
+});
     </script>
 </body>
 

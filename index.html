@@ -48,65 +48,29 @@
 
         function signIn() {
             myMSALObj.loginPopup(requestObj).then(function (loginResponse) {
-                showWelcomeMessage();
                 acquireTokenPopupAndCallFHIRServer();
             }).catch(function (error) {
                 console.log(error);
             })
         }
-
-        function showWelcomeMessage() {
-		sessionStorage.setItem("UserName", myMSALObj.getAccount().userName);
-		    var divWelcome = document.getElementById('WelcomeMessage');
-            divWelcome.innerHTML = "Welcome " + myMSALObj.getAccount().userName + " to FHIR Patient Browsing App";
-            var loginbutton = document.getElementById('SignIn');
-            loginbutton.innerHTML = 'Sign Out';
-            loginbutton.setAttribute('onclick', 'signOut()')
-        }
-
         function signOut() {
             myMSALObj.logout();
         }
 
         function acquireTokenPopupAndCallFHIRServer() {
             myMSALObj.acquireTokenSilent(requestObj).then(function (tokenResponse) {
-                callFHIRServer(FHIRConfig.FHIRendpoint + '/Patient', 'GET', null, tokenResponse.accessToken, FHIRCallback);
+			sessionStorage.setItem("ApiToken", 'Bearer ' + accessToken);
+			alert('pramod1 - '+ sessionStorage.getItem("ApiToken"));			
+			location.href = location.origin+'/PhysicianDemo/Dashboard.html';
             }).catch(function (error) {
                 console.log(error);
                 if (requiresInteraction(error.errorCode)) {
                     myMSALObj.acquireTokenPopup(requestObj).then(function (tokenResponse) {
-                        callFHIRServer(FHIRConfig.FHIRendpoint + '/Patient', 'GET', null, tokenResponse.accessToken, FHIRCallback);
                     }).catch(function (error) {
                         console.log(error);
                     })
                 }
             });
-        }
-
-        function callFHIRServer(theUrl, method, message, accessToken, callBack) {
-		    sessionStorage.setItem("ApiToken", 'Bearer ' + accessToken);
-            var xmlHttp = new XMLHttpRequest();
-            xmlHttp.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200)
-                    callBack(JSON.parse(this.responseText));
-            }
-            xmlHttp.open(method, theUrl, true);
-            xmlHttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-            xmlHttp.setRequestHeader('Authorization', 'Bearer ' + accessToken);
-            xmlHttp.send(message);
-        }
-
-        function FHIRCallback(data) {
-		
-		location.href = location.origin+'/PhysicianDemo/Dashboard.html';
-		/*
-            patientListHtml = '<ol>';
-            data.entry.forEach(function(e) {
-                patientListHtml += '<li>' + e.resource.name[0].family + ', ' + e.resource.name[0].given + ' (' + e.resource.id + ')';
-            });
-            patientListHtml += '</ol>';
-            document.getElementById("patientTable").innerHTML = patientListHtml;
-			*/
         }
     </script>
 </body>
