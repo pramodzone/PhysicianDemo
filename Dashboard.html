@@ -80,9 +80,9 @@ body {
                         <tr>
                             <th>Id</th>
                             <th>Name</th>
-                            <th>Total Assigned</th>
-                            <th>Active</th>
-                            <th>Action</th>
+                            <th>Address</th>
+                            <th>Gender</th>
+                            <th>BirhtDate</th>
                         </tr>
                         </thead>
                     </table>
@@ -110,15 +110,13 @@ body {
   success: function(data,output, status, xhr) {
             var jsonData = data;
             patientTable.clear().draw();
-            for (var iCount = 0; iCount < jsonData.length; iCount++) {
-           
-            debugger;
+            for (var iCount = 0; iCount < jsonData.entry.length; iCount++) {
             patientTable.row.add([
-            jsonData[iCount].id,
-			jsonData[iCount].name,
-			jsonData[iCount].totalAssigned ,
-			activeStatus,
-			'<span style="color: blue;cursor: pointer;" onclick="return Edit( \''+ jsonData[iCount].name  + '\',' + jsonData[iCount].id + ');" >Edit </span> | <span style="color: blue;cursor: pointer;" onclick="return Delete(' + jsonData[iCount].id + ');" >Delete </span>'
+            jsonData.entry[iCount].resource.id,
+			jsonData.entry[iCount].resource.name[0].given.toString(),
+			jsonData.entry[iCount].resource.address[0].text
+			jsonData.entry[iCount].resource.gender ,
+			jsonData.entry[iCount].resource.birthDate
 		    ]).draw( false );
 			}
 
