@@ -111,13 +111,28 @@ body {
             var jsonData = data;
             patientTable.clear().draw();
             for (var iCount = 0; iCount < jsonData.entry.length; iCount++) {
-            patientTable.row.add([
-            jsonData.entry[iCount].resource.id,
-			jsonData.entry[iCount].resource.name[0].given.toString(),
-			jsonData.entry[iCount].resource.address[0].text,
-			jsonData.entry[iCount].resource.gender ,
-			jsonData.entry[iCount].resource.birthDate
-		    ]).draw( false );
+			
+			var name = '';
+			var gender = '';			
+			var birthDate = '';
+			var address = '';
+			if ( jsonData.entry[iCount].resource.name[0] != undefined )
+			{
+			 name = jsonData.entry[iCount].resource.name[0].given.toString();
+			}
+			if ( jsonData.entry[iCount].resource.address[0] != undefined )
+			{
+			 address = jsonData.entry[iCount].resource.address[0].text;
+			}
+			if ( jsonData.entry[iCount].resource.gender != undefined )
+			{
+			 gender = jsonData.entry[iCount].resource.gender;
+			}
+			if ( jsonData.entry[iCount].resource.birthDate != undefined )
+			{
+			 birthDate = jsonData.entry[iCount].resource.birthDate;
+			}
+            patientTable.row.add([jsonData.entry[iCount].resource.id,name,address,gender,birthDate]).draw( false );
 			}
 
             },
