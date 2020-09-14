@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Dashboard</title>>
+    <title>Dashboard</title>
 	<script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.0/js/msal.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
@@ -36,15 +36,7 @@ var msalConfig = {
             sessionStorage.removeItem("UserName");
 			sessionStorage.removeItem("ApiToken");
 			myMSALObj.logout();
-        }
-
-
-        function signOut() {
-            myMSALObj.logout();
-        }
-		
-		
-        
+        }        
 		
 		$(document).ready(function(){
 		alert('pramod - '+ sessionStorage.getItem("ApiToken"));
