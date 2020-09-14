@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Dashboard</title>>
+	<script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.0/js/msal.js"></script>
+</head>
+
+<body>
+    <div class="leftContainer">
+        <p id="WelcomeMessage">Welcome to the FHIR Patient browsing sample Application</p>
+        <button id="SignIn" onclick="signOut()">Sign Out</button>
+    </div>
+
+    <div id="patientTable">
+    </div>
+
+    <script>
+        
+		
+var msalConfig = {
+            auth: {
+                clientId: '8fd52680-9d4d-4d80-be79-b2229e4e2ae3',
+                authority: "https://login.microsoftonline.com/666970e6-6b32-4d51-9b11-00684bacff6d"
+            },
+            cache: {
+                cacheLocation: "localStorage",
+                storeAuthStateInCookie: true
+            }
+        }
+
+        var myMSALObj = new Msal.UserAgentApplication(msalConfig);
+		
+		var divWelcome = document.getElementById('WelcomeMessage');
+       divWelcome.innerHTML = "Welcome " + sessionStorage.getItem("UserName")+ " to FHIR Patient Browsing App";
+          
+
+        function signOut() {
+            sessionStorage.removeItem("UserName");
+			sessionStorage.removeItem("ApiToken");
+			 myMSALObj.logout();
+			location.href = location.origin+'/PhysicianDemo';
+        }
+
+
+        function signOut() {
+            myMSALObj.logout();
+        }
+    </script>
+</body>
+
+</html>
