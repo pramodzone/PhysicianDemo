@@ -38,8 +38,8 @@ var msalConfig = {
         function signOut() {
             sessionStorage.removeItem("UserName");
 			sessionStorage.removeItem("ApiToken");
-			 myMSALObj.logout();
-			location.href = location.origin+'/PhysicianDemo';
+			myMSALObj.logout();
+			location.href = location.origin+'/PhysicianDemo/Index.html';
         }
 
 
