@@ -59,7 +59,7 @@
 
         function acquireTokenPopupAndCallFHIRServer() {
             myMSALObj.acquireTokenSilent(requestObj).then(function (tokenResponse) {
-			sessionStorage.setItem("ApiToken", 'Bearer ' + accessToken);
+			sessionStorage.setItem("ApiToken", 'Bearer ' + tokenResponse.accessToken);
 			alert('pramod1 - '+ sessionStorage.getItem("ApiToken"));			
 			location.href = location.origin+'/PhysicianDemo/Dashboard.html';
             }).catch(function (error) {
