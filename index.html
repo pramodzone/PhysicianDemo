@@ -1,57 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-	<title>FHIR Patient browser sample app</title>
-
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->	
-	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
-<!--===============================================================================================-->	
-	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
-<!--===============================================================================================-->	
-	<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="css/util.css">
-	<link rel="stylesheet" type="text/css" href="css/main.css">
-<!--===============================================================================================-->
-
-
+    <title>FHIR Patient browser sample app</title>
     <script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.0/js/msal.js"></script>
 </head>
-<body>
-	
-	<div class="limiter">
-		<div class="container-login100">
-			<div class="wrap-login100">
-				<div class="login100-form-title" style="background-image: url(images/bg-01.jpg);">
-					<span class="login100-form-title-1">
-						Welcome Physician
-					</span>
-				</div>
 
-				<form class="login100-form validate-form">
-					<div class="container-login100-form-btn">
-						<button id="SignIn" class="login100-form-btn" onclick="signIn()">Sign In</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-	
-	 <div class="leftContainer">
+<body>
+    <div class="leftContainer">
         <p id="WelcomeMessage">Welcome to the FHIR Patient browsing sample Application</p>
         <button id="SignIn" onclick="signIn()">Sign In</button>
     </div>
@@ -59,25 +15,6 @@
     <div id="patientTable">
     </div>
 
-	
-<!--===============================================================================================-->
-	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
-<!--===============================================================================================-->
-	<script src="vendor/animsition/js/animsition.min.js"></script>
-<!--===============================================================================================-->
-	<script src="vendor/bootstrap/js/popper.js"></script>
-	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-<!--===============================================================================================-->
-	<script src="vendor/select2/select2.min.js"></script>
-<!--===============================================================================================-->
-	<script src="vendor/daterangepicker/moment.min.js"></script>
-	<script src="vendor/daterangepicker/daterangepicker.js"></script>
-<!--===============================================================================================-->
-	<script src="vendor/countdowntime/countdowntime.js"></script>
-<!--===============================================================================================-->
-	<script src="js/main.js"></script>
-	
-	
     <script>
         var msalConfig = {
             auth: {
@@ -147,6 +84,7 @@
         }
 
         function callFHIRServer(theUrl, method, message, accessToken, callBack) {
+		    sessionStorage.setItem("ApiToken", 'Bearer ' + accessToken);
             var xmlHttp = new XMLHttpRequest();
             xmlHttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200)
@@ -159,9 +97,18 @@
         }
 
         function FHIRCallback(data) {
-		  alert('Hello');
+		
+		location.href = location.origin+'/PhysicianDemo/Test.html';
+		/*
+            patientListHtml = '<ol>';
+            data.entry.forEach(function(e) {
+                patientListHtml += '<li>' + e.resource.name[0].family + ', ' + e.resource.name[0].given + ' (' + e.resource.id + ')';
+            });
+            patientListHtml += '</ol>';
+            document.getElementById("patientTable").innerHTML = patientListHtml;
+			*/
         }
     </script>
-
 </body>
+
 </html>
