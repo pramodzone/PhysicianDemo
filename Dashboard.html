@@ -5,6 +5,20 @@
     <title>Dashboard</title>
 	<script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.0/js/msal.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+    <script type="text/javascript" language="javascript"
+            src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+			
+    
+    <!--Data Table-->
+    <script type="text/javascript" src=" https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript"
+            src=" https://cdn.datatables.net/buttons/1.2.4/js/dataTables.buttons.min.js"></script>
+
+    <script>
+
+
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 body {
@@ -64,11 +78,57 @@ body {
 		<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Menu</span>
     </div>
 
-    <div id="patientTable">
-    </div>
+ <table id="patientTable" class="display" cellspacing="0" width="100%">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Total Assigned</th>
+                            <th>Active</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                    </table>
 
     <script>
 
+
+  var FHIRConfig = {
+            FHIRendpoint: "https://azurehealthdemo.azurehealthcareapis.com"
+        }
+		
+    fuction LoadPatient()
+	{
+	    var patientTable = $('#patientTable').DataTable();
+      var callingUrl = FHIRConfig.FHIRendpoint + '/Patient';
+      var setc =  sessionStorage.getItem("ApiToken");
+       $.ajax({
+             type: 'GET',
+             url: callingUrl,
+            contentType: "text/plain",
+             headers: {
+			    'Content-Type': 'application/json;charset=UTF-8'
+                'Authorization': setc
+            },
+  success: function(data,output, status, xhr) {
+            var jsonData = data;
+            patientTable.clear().draw();
+            for (var iCount = 0; iCount < jsonData.length; iCount++) {
+           
+            debugger;
+            patientTable.row.add([
+            jsonData[iCount].id,
+			jsonData[iCount].name,
+			jsonData[iCount].totalAssigned ,
+			activeStatus,
+			'<span style="color: blue;cursor: pointer;" onclick="return Edit( \''+ jsonData[iCount].name  + '\',' + jsonData[iCount].id + ');" >Edit </span> | <span style="color: blue;cursor: pointer;" onclick="return Delete(' + jsonData[iCount].id + ');" >Delete </span>'
+		    ]).draw( false );
+
+            },
+            error: function (xhr, status, error) {
+                alert('error - ' + error);
+            }        });
+	}
 
 function openNav() {
   document.getElementById("mySidenav").style.display = "block";
@@ -104,6 +164,7 @@ var msalConfig = {
 		
 		var divWelcome = document.getElementById('WelcomeMessage');
        divWelcome.innerHTML = "Welcome " + sessionStorage.getItem("UserName")+ " to FHIR Physician Browsing App";
+	   LoadPatient();
         }
         else{
          
