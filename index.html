@@ -96,12 +96,16 @@
         }
 
         function FHIRCallback(data) {
+		
+		window.location = location.origin+/'Test.html';
+		/*
             patientListHtml = '<ol>';
             data.entry.forEach(function(e) {
                 patientListHtml += '<li>' + e.resource.name[0].family + ', ' + e.resource.name[0].given + ' (' + e.resource.id + ')';
             });
             patientListHtml += '</ol>';
             document.getElementById("patientTable").innerHTML = patientListHtml;
+			*/
         }
     </script>
 </body>
