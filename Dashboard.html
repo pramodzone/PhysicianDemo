@@ -9,7 +9,7 @@
 
 <body>
     <div class="leftContainer">
-        <p id="WelcomeMessage">Welcome to the FHIR Patient browsing sample Application</p>
+        <p id="WelcomeMessage">Welcome to the FHIR Physician browsing sample Application</p>
         <button id="SignIn" onclick="signOut()">Sign Out</button>
     </div>
 
@@ -24,7 +24,7 @@
         {       
 		
 		var divWelcome = document.getElementById('WelcomeMessage');
-       divWelcome.innerHTML = "Welcome " + sessionStorage.getItem("UserName")+ " to FHIR Patient Browsing App";
+       divWelcome.innerHTML = "Welcome " + sessionStorage.getItem("UserName")+ " to FHIR Physician Browsing App";
         }
         else{
          
