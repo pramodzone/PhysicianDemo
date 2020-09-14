@@ -93,7 +93,7 @@ body {
             FHIRendpoint: "https://azurehealthdemo.azurehealthcareapis.com"
         }
 		
-    fuction LoadPatient()
+    function LoadPatient()
 	{
 	    var patientTable = $('#patientTable').DataTable();
       var callingUrl = FHIRConfig.FHIRendpoint + '/Patient';
@@ -119,11 +119,13 @@ body {
 			activeStatus,
 			'<span style="color: blue;cursor: pointer;" onclick="return Edit( \''+ jsonData[iCount].name  + '\',' + jsonData[iCount].id + ');" >Edit </span> | <span style="color: blue;cursor: pointer;" onclick="return Delete(' + jsonData[iCount].id + ');" >Delete </span>'
 		    ]).draw( false );
+			}
 
             },
             error: function (xhr, status, error) {
                 alert('error - ' + error);
-            }        });
+            }        
+			});
 	}
 
 function openNav() {
