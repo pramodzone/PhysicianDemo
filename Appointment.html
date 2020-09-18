@@ -164,9 +164,31 @@ function showPatient()
 			
 			var patientName = '';
 			var practitionerName = '';	
+			var status = '';	
+			var comment = '';	
+			
+			if ( jsonData.entry[iCount].resource.status != undefined )
+			{
+			 status = jsonData.entry[iCount].resource.status.toString();
+			}
+			
+			if ( jsonData.entry[iCount].resource.comment != undefined )
+			{
+			 comment = jsonData.entry[iCount].resource.comment.toString();
+			}
+						
+			if ( jsonData.entry[iCount].resource.participant[0].actor.reference.indexOf("Patient") >= 0)
+			{
+				  patientName =   jsonData.entry[iCount].resource.participant[0].actor.display ;
+			}
+
+			if ( jsonData.entry[iCount].resource.participant[1].actor.reference.indexOf("Practitioner") >= 0)
+			{
+			   practitionerName =  jsonData.entry[iCount].resource.participant[1].actor.display;
+			}
 			
             recordTable.row.add([jsonData.entry[iCount].resource.id,jsonData.entry[iCount].resource.start,jsonData.entry[iCount].resource.end,
-			jsonData.entry[iCount].resource.comment,jsonData.entry[iCount].resource.status,patientName,practitionerName]).draw( false );
+			comment,jsonData.status,patientName,practitionerName]).draw( false );
 			}
 
             },
