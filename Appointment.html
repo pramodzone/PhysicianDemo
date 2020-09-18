@@ -165,8 +165,19 @@ function showPatient()
 			var patientName = '';
 			var practitionerName = '';	
 			var status = '';	
-			var comment = '';	
+			var comment = '';
+
+			var startDate = '';	
+			var endDate = '';			
 			
+			if ( jsonData.entry[iCount].resource.start != undefined )
+			{
+			 startDate = jsonData.entry[iCount].resource.start.toString();
+			}
+			if ( jsonData.entry[iCount].resource.end != undefined )
+			{
+			 endDate = jsonData.entry[iCount].resource.end.toString();
+			}
 			if ( jsonData.entry[iCount].resource.status != undefined )
 			{
 			 status = jsonData.entry[iCount].resource.status.toString();
@@ -187,7 +198,7 @@ function showPatient()
 			   practitionerName =  jsonData.entry[iCount].resource.participant[1].actor.display;
 			}
 			
-            recordTable.row.add([jsonData.entry[iCount].resource.id,jsonData.entry[iCount].resource.start,jsonData.entry[iCount].resource.end,
+            recordTable.row.add([jsonData.entry[iCount].resource.id,startDate,endDate,
 			comment,jsonData.status,patientName,practitionerName]).draw( false );
 			}
 
