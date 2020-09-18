@@ -17,6 +17,33 @@
             src=" https://cdn.datatables.net/buttons/1.2.4/js/dataTables.buttons.min.js"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
+
+.modal {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .8 )
+                url('http://sampsonresume.com/labs/pIkfp.gif')
+                50% 50%
+                no-repeat;
+}
+
+/* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+body.loading {
+    overflow: hidden;
+}
+
+/* Anytime the body has the loading class, our
+   modal element will be visible */
+body.loading .modal {
+    display: block;
+}
+
 body {
   font-family: "Lato", sans-serif;
 }
@@ -177,7 +204,15 @@ var msalConfig = {
             sessionStorage.removeItem("UserName");
 			sessionStorage.removeItem("ApiToken");
 			myMSALObj.logout();
-        }        
+        }    
+
+$(document).ajaxStart(function(){
+    $('#loading').show();
+ }).ajaxStop(function(){
+    $('#loading').hide();
+ });
+
+		
 		
 		$(document).ready(function(){
 		if ( sessionStorage.getItem("ApiToken") != null )
@@ -193,6 +228,8 @@ var msalConfig = {
         }
 });
     </script>
+	
+<div class="modal " id="loading"></div>
 </body>
 
 </html>
