@@ -74,8 +74,8 @@ body {
 		<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Menu</span>
     </div>
 
-<br><br><span style="font-size:30px;" >Patient Details</span><br>
- <table id="patientTable" class="display" cellspacing="0" width="100%">
+<br><br><span style="font-size:30px;" >Practitioner Details</span><br>
+ <table id="recordTable" class="display" cellspacing="0" width="100%">
                         <thead>
                         <tr>
                             <th>Id</th>
@@ -103,10 +103,10 @@ function showPatient()
             FHIRendpoint: "https://azurehealthdemo.azurehealthcareapis.com"
         }
 		
-    function LoadPatient()
+    function LoadPractitioner()
 	{
-	    var patientTable = $('#patientTable').DataTable();
-      var callingUrl = FHIRConfig.FHIRendpoint + '/Patient';
+	    var recordTable = $('#recordTable').DataTable();
+      var callingUrl = FHIRConfig.FHIRendpoint + '/Practitioner';
       var setc =  sessionStorage.getItem("ApiToken");
        $.ajax({
              type: 'GET',
@@ -118,7 +118,7 @@ function showPatient()
             },
   success: function(data,output, status, xhr) {
             var jsonData = data;
-            patientTable.clear().draw();
+            recordTable.clear().draw();
             for (var iCount = 0; iCount < jsonData.entry.length; iCount++) {
 			
 			var name = '';
@@ -141,7 +141,7 @@ function showPatient()
 			{
 			 birthDate = jsonData.entry[iCount].resource.birthDate;
 			}
-            patientTable.row.add([jsonData.entry[iCount].resource.id,name,address,gender,birthDate]).draw( false );
+            recordTable.row.add([jsonData.entry[iCount].resource.id,name,address,gender,birthDate]).draw( false );
 			}
 
             },
@@ -185,7 +185,7 @@ var msalConfig = {
 		
 		var divWelcome = document.getElementById('WelcomeMessage');
        divWelcome.innerHTML = "Welcome " + sessionStorage.getItem("UserName")+ " to FHIR Physician Browsing App";
-	   LoadPatient();
+	   LoadPractitioner();
         }
         else{
          
