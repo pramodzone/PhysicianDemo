@@ -17,6 +17,33 @@
             src=" https://cdn.datatables.net/buttons/1.2.4/js/dataTables.buttons.min.js"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
+
+.modal {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .8 )
+                url('http://sampsonresume.com/labs/pIkfp.gif')
+                50% 50%
+                no-repeat;
+}
+
+/* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+body.loading {
+    overflow: hidden;
+}
+
+/* Anytime the body has the loading class, our
+   modal element will be visible */
+body.loading .modal {
+    display: block;
+}
+
 body {
   font-family: "Lato", sans-serif;
 }
@@ -76,15 +103,17 @@ body {
 		<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Menu</span>
     </div>
 
-<br><br><span style="font-size:30px;" >Practitioner Details</span><br>
+<br><br><span style="font-size:30px;" >Appointment Details</span><br>
  <table id="recordTable" class="display" cellspacing="0" width="100%">
                         <thead>
                         <tr>
                             <th>Id</th>
-                            <th>Name</th>
-                            <th>Address</th>
-                            <th>Gender</th>
-                            <th>BirhtDate</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Comment</th>
+                            <th>Status</th>
+							<th>Patient Name</th>
+							<th>Practitioner Name</th>
                         </tr>
                         </thead>
                     </table>
@@ -115,10 +144,10 @@ function showPatient()
             FHIRendpoint: "https://azurehealthdemo.azurehealthcareapis.com"
         }
 		
-    function LoadPractitioner()
+    function LoadPatient()
 	{
 	    var recordTable = $('#recordTable').DataTable();
-      var callingUrl = FHIRConfig.FHIRendpoint + '/Practitioner';
+      var callingUrl = FHIRConfig.FHIRendpoint + '/Appointment';
       var setc =  sessionStorage.getItem("ApiToken");
        $.ajax({
              type: 'GET',
@@ -133,27 +162,11 @@ function showPatient()
             recordTable.clear().draw();
             for (var iCount = 0; iCount < jsonData.entry.length; iCount++) {
 			
-			var name = '';
-			var gender = '';			
-			var birthDate = '';
-			var address = '';
-			if ( jsonData.entry[iCount].resource.name[0] != undefined )
-			{
-			 name = jsonData.entry[iCount].resource.name[0].given.toString();
-			}
-			if ( jsonData.entry[iCount].resource.address != undefined )
-			{
-			 address = jsonData.entry[iCount].resource.address[0].text;
-			}
-			if ( jsonData.entry[iCount].resource.gender != undefined )
-			{
-			 gender = jsonData.entry[iCount].resource.gender;
-			}
-			if ( jsonData.entry[iCount].resource.birthDate != undefined )
-			{
-			 birthDate = jsonData.entry[iCount].resource.birthDate;
-			}
-            recordTable.row.add([jsonData.entry[iCount].resource.id,name,address,gender,birthDate]).draw( false );
+			var patientName = '';
+			var practitionerName = '';	
+			
+            recordTable.row.add([jsonData.entry[iCount].resource.id,jsonData.entry[iCount].resource.start,jsonData.entry[iCount].resource.end,
+			jsonData.entry[iCount].resource.comment,jsonData.entry[iCount].resource.status,patientName,practitionerName]).draw( false );
 			}
 
             },
@@ -189,7 +202,15 @@ var msalConfig = {
             sessionStorage.removeItem("UserName");
 			sessionStorage.removeItem("ApiToken");
 			myMSALObj.logout();
-        }        
+        }    
+
+$(document).ajaxStart(function(){
+    $('#loading').show();
+ }).ajaxStop(function(){
+    $('#loading').hide();
+ });
+
+		
 		
 		$(document).ready(function(){
 		if ( sessionStorage.getItem("ApiToken") != null )
@@ -197,7 +218,7 @@ var msalConfig = {
 		
 		var divWelcome = document.getElementById('WelcomeMessage');
        divWelcome.innerHTML = "Welcome " + sessionStorage.getItem("UserName");
-	   LoadPractitioner();
+	   LoadPatient();
         }
         else{
          
@@ -205,6 +226,8 @@ var msalConfig = {
         }
 });
     </script>
+	
+<div class="modal " id="loading"></div>
 </body>
 
 </html>

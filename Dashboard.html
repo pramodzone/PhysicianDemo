@@ -67,6 +67,8 @@ body {
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
   <a href="#" onClick="showPatient();" >Patient</a>
   <a href="#" onClick="showPartitioner();">Practitioner</a>
+  <a href="#" onClick="showAppointment();">Appointment</a>
+  <a href="#" onClick="showEncounter();">Encounter</a>
   <a href="#" onClick="signOut();">Sign Out</a>
 </div>
     <div class="leftContainer">
@@ -88,6 +90,17 @@ body {
                     </table>
 
     <script>
+
+function showAppointment()
+	{
+	  location.href = location.origin+'/PhysicianDemo/Appointment.html';
+	}
+	
+	function showEncounter()
+	{
+	   location.href = location.origin+'/PhysicianDemo/Encounter.html';
+	}
+
 
 function showPatient()
 	{
